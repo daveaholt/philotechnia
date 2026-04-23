@@ -1,6 +1,20 @@
 cmake_minimum_required(VERSION 3.25)
 
 # -----------------------------------------------------------------------------
+# vcpkg triplet policy (enforces CLAUDE.md rule 3 at the toolchain level)
+# -----------------------------------------------------------------------------
+# This check MUST come before project() because vcpkg's toolchain file runs
+# during project() and would start building static packages before we could
+# reject them. Catching it here avoids wasted build time and disk space.
+if(DEFINED VCPKG_TARGET_TRIPLET AND VCPKG_TARGET_TRIPLET MATCHES "-static$")
+    message(FATAL_ERROR
+        "VCPKG_TARGET_TRIPLET='${VCPKG_TARGET_TRIPLET}' ends in '-static'. "
+        "Philotechnia requires dynamic Qt linkage under LGPL 3.0 "
+        "(see CLAUDE.md rule 3). Use a dynamic triplet: "
+        "x64-windows / x64-osx / arm64-osx / x64-linux / arm64-linux.")
+endif()
+
+# -----------------------------------------------------------------------------
 # Project metadata
 # -----------------------------------------------------------------------------
 project(philotechnia
@@ -21,19 +35,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # single-config generators.
 if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
-endif()
-
-# -----------------------------------------------------------------------------
-# vcpkg triplet policy (enforces CLAUDE.md rule 3 at the toolchain level)
-# -----------------------------------------------------------------------------
-# Only dynamic vcpkg triplets are supported. Static triplets would cause Qt to
-# link statically, violating the LGPL 3.0 requirement.
-if(DEFINED VCPKG_TARGET_TRIPLET AND VCPKG_TARGET_TRIPLET MATCHES "-static$")
-    message(FATAL_ERROR
-        "VCPKG_TARGET_TRIPLET='${VCPKG_TARGET_TRIPLET}' ends in '-static'. "
-        "Philotechnia requires dynamic Qt linkage under LGPL 3.0 "
-        "(see CLAUDE.md rule 3). Use a dynamic triplet: "
-        "x64-windows / x64-osx / arm64-osx / x64-linux / arm64-linux.")
 endif()
 
 # -----------------------------------------------------------------------------
@@ -63,7 +64,7 @@ if(NOT _qt_core_type STREQUAL "SHARED_LIBRARY")
 endif()
 
 # libgit2, yyjson, Catch2 v3
-find_package(unofficial-git2 CONFIG REQUIRED)
+find_package(libgit2 CONFIG REQUIRED)
 find_package(yyjson CONFIG REQUIRED)
 find_package(Catch2 3 CONFIG REQUIRED)
 
