@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "philotechnia",
+  "version-string": "0.0.0",
+  "description": "Cross-platform desktop application for version-controlled structured record management.",
+  "homepage": "https://github.com/daveaholt/philotechnia",
+  "builtin-baseline": "4334d8b4c8916018600212ab4dd4bbdc343065d1",
+  "dependencies": [
+    {
+      "name": "qtbase",
+      "features": ["widgets"]
+    },
+    "libgit2",
+    "yyjson",
+    "catch2"
+  ],
+  "overrides": []
+}

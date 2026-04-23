@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Philotechnia
+GenericName=Structured Record Manager
+Comment=Cross-platform desktop application for version-controlled structured record management.
+Exec=philotechnia %F
+Icon=philotechnia
+Terminal=false
+Categories=Office;Development;Database;
+Keywords=records;database;schema;version-control;git;
+StartupNotify=true

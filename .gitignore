@@ -1,0 +1,77 @@
+# Build directories
+build/
+build-*/
+out/
+cmake-build-*/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+CTestTestfile.cmake
+install_manifest.txt
+Testing/
+_deps/
+
+# Ninja
+.ninja_deps
+.ninja_log
+build.ninja
+rules.ninja
+
+# vcpkg (installed/cached dependencies — never commit)
+vcpkg_installed/
+vcpkg/
+.vcpkg-root
+
+# CPack
+_CPack_Packages/
+*.dmg
+*.msi
+*.deb
+*.AppImage
+*.tar.gz
+*.zip
+
+# Compiled objects, libs, executables
+*.o
+*.obj
+*.lo
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.exp
+
+# Compilation databases
+compile_commands.json
+
+# IDEs and editors
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.ncb
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Clangd / clang-tidy / include-what-you-use
+.cache/
+.clangd/
+
+# AI / local agent scratch
+.claude/

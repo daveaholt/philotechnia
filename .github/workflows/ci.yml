@@ -1,0 +1,145 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-flight runs when a new commit arrives on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # vcpkg registry commit. Must match vcpkg.json's "builtin-baseline".
+  # Update both together when the pin is bumped.
+  VCPKG_COMMIT: "4334d8b4c8916018600212ab4dd4bbdc343065d1"
+  CMAKE_GENERATOR: "Ninja"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build and test on every target platform.
+  # Produces a Debug build and runs the Catch2 test suite via CTest.
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build & test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            triplet: arm64-osx
+          - os: windows-latest
+            triplet: x64-windows
+          - os: ubuntu-latest
+            triplet: x64-linux
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            pkg-config \
+            libgl1-mesa-dev \
+            libxkbcommon-dev \
+            libfontconfig1-dev \
+            libxcb-*-dev
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT }}
+
+      - name: Configure
+        run: >
+          cmake -B build -G "${{ env.CMAKE_GENERATOR }}"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+          -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        working-directory: build
+        run: ctest --output-on-failure
+
+  # ---------------------------------------------------------------------------
+  # Release build + cpack on each platform. Verifies the installer generators
+  # succeed; uploaded artefacts are for inspection, not release distribution
+  # (that happens at M6).
+  # ---------------------------------------------------------------------------
+  package:
+    name: Package (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            triplet: arm64-osx
+            installer_glob: "build/*.dmg"
+          - os: windows-latest
+            triplet: x64-windows
+            installer_glob: "build/*.msi"
+          - os: ubuntu-latest
+            triplet: x64-linux
+            installer_glob: |
+              build/*.deb
+              build/*.AppImage
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            pkg-config \
+            libgl1-mesa-dev \
+            libxkbcommon-dev \
+            libfontconfig1-dev \
+            libxcb-*-dev
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT }}
+
+      - name: Configure (Release)
+        run: >
+          cmake -B build -G "${{ env.CMAKE_GENERATOR }}"
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+          -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+      - name: Build (Release)
+        run: cmake --build build --config Release
+
+      - name: Package
+        working-directory: build
+        run: cpack
+
+      - name: Upload installer artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.os }}
+          path: ${{ matrix.installer_glob }}
+          if-no-files-found: error
