@@ -54,6 +54,7 @@ jobs:
             autoconf-archive \
             automake \
             libtool \
+            libltdl-dev \
             libgl1-mesa-dev \
             libxkbcommon-dev \
             libfontconfig1-dev \
@@ -80,6 +81,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Debug
           "-DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake"
           -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+          "-DVCPKG_OVERLAY_TRIPLETS=${{ github.workspace }}/triplets"
 
       - name: Build
         run: cmake --build build
@@ -131,6 +133,7 @@ jobs:
             autoconf-archive \
             automake \
             libtool \
+            libltdl-dev \
             libgl1-mesa-dev \
             libxkbcommon-dev \
             libfontconfig1-dev \
@@ -157,6 +160,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           "-DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake"
           -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+          "-DVCPKG_OVERLAY_TRIPLETS=${{ github.workspace }}/triplets"
 
       - name: Build (Release)
         run: cmake --build build --config Release
