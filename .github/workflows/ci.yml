@@ -14,7 +14,7 @@ concurrency:
 env:
   # vcpkg registry commit. Must match vcpkg.json's "builtin-baseline".
   # Update both together when the pin is bumped.
-  VCPKG_COMMIT: "4334d8b4c8916018600212ab4dd4bbdc343065d1"
+  VCPKG_COMMIT: "7147ac1294ef9647e8679e1183ac440a5d0a63b7"
   CMAKE_GENERATOR: "Ninja"
 
 jobs:
@@ -50,15 +50,20 @@ jobs:
           sudo apt-get install -y \
             build-essential \
             pkg-config \
+            autoconf \
             autoconf-archive \
+            automake \
+            libtool \
             libgl1-mesa-dev \
             libxkbcommon-dev \
             libfontconfig1-dev \
             libxcb-*-dev
+          # Ensure aclocal can find libtool's m4 macros on Ubuntu 24.04
+          echo "ACLOCAL_PATH=/usr/share/aclocal" >> $GITHUB_ENV
 
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
-        run: brew install autoconf autoconf-archive automake
+        run: brew install autoconf autoconf-archive automake libtool
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -122,15 +127,20 @@ jobs:
           sudo apt-get install -y \
             build-essential \
             pkg-config \
+            autoconf \
             autoconf-archive \
+            automake \
+            libtool \
             libgl1-mesa-dev \
             libxkbcommon-dev \
             libfontconfig1-dev \
             libxcb-*-dev
+          # Ensure aclocal can find libtool's m4 macros on Ubuntu 24.04
+          echo "ACLOCAL_PATH=/usr/share/aclocal" >> $GITHUB_ENV
 
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
-        run: brew install autoconf autoconf-archive automake
+        run: brew install autoconf autoconf-archive automake libtool
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
