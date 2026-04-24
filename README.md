@@ -49,7 +49,7 @@ The vcpkg registry commit is pinned in two coupled places and must always be kep
 1. `vcpkg.json` → `"builtin-baseline"`
 2. `.github/workflows/ci.yml` → `env.VCPKG_COMMIT` (same value)
 
-The current baseline is `4334d8b4c8916018600212ab4dd4bbdc343065d1` — vcpkg release tag [`2025.09.17`](https://github.com/microsoft/vcpkg/releases/tag/2025.09.17). When bumping the baseline, pick a commit from [microsoft/vcpkg releases](https://github.com/microsoft/vcpkg/releases) (typically a release tag), update both fields, and land the change as its own commit so that dependency-driven behaviour changes are bisectable (see the Dependency management convention in `CLAUDE.md`).
+The current baseline is `c3867e714dd3a51c272826eea77267876517ed99` — vcpkg release tag [`2026.03.18`](https://github.com/microsoft/vcpkg/releases/tag/2026.03.18). When bumping the baseline, pick a commit from [microsoft/vcpkg releases](https://github.com/microsoft/vcpkg/releases) (typically a release tag), update both fields, and land the change as its own commit so that dependency-driven behaviour changes are bisectable (see the Dependency management convention in `CLAUDE.md`).
 
 Only the dynamic vcpkg triplets are supported: `x64-windows`, `x64-osx`, `arm64-osx`, `x64-linux`, `arm64-linux`. The `-static` variants are rejected at configure time because they would statically link Qt in violation of LGPL 3.0 (see `CLAUDE.md` rule 3 and spec §15.1).
 

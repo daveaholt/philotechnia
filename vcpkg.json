@@ -4,7 +4,7 @@
   "version-string": "0.0.0",
   "description": "Cross-platform desktop application for version-controlled structured record management.",
   "homepage": "https://github.com/daveaholt/philotechnia",
-  "builtin-baseline": "7147ac1294ef9647e8679e1183ac440a5d0a63b7",
+  "builtin-baseline": "c3867e714dd3a51c272826eea77267876517ed99",
   "dependencies": [
     {
       "name": "qtbase",

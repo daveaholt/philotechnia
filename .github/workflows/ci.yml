@@ -14,7 +14,7 @@ concurrency:
 env:
   # vcpkg registry commit. Must match vcpkg.json's "builtin-baseline".
   # Update both together when the pin is bumped.
-  VCPKG_COMMIT: "7147ac1294ef9647e8679e1183ac440a5d0a63b7"
+  VCPKG_COMMIT: "c3867e714dd3a51c272826eea77267876517ed99"
   CMAKE_GENERATOR: "Ninja"
 
 jobs:
