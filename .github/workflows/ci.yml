@@ -50,10 +50,15 @@ jobs:
           sudo apt-get install -y \
             build-essential \
             pkg-config \
+            autoconf-archive \
             libgl1-mesa-dev \
             libxkbcommon-dev \
             libfontconfig1-dev \
             libxcb-*-dev
+
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: brew install autoconf autoconf-archive automake
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -68,7 +73,7 @@ jobs:
         run: >
           cmake -B build -G "${{ env.CMAKE_GENERATOR }}"
           -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+          "-DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake"
           -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
       - name: Build
@@ -117,10 +122,15 @@ jobs:
           sudo apt-get install -y \
             build-essential \
             pkg-config \
+            autoconf-archive \
             libgl1-mesa-dev \
             libxkbcommon-dev \
             libfontconfig1-dev \
             libxcb-*-dev
+
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: brew install autoconf autoconf-archive automake
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -135,7 +145,7 @@ jobs:
         run: >
           cmake -B build -G "${{ env.CMAKE_GENERATOR }}"
           -DCMAKE_BUILD_TYPE=Release
-          -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+          "-DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake"
           -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
       - name: Build (Release)
