@@ -56,7 +56,15 @@ jobs:
             libtool \
             libltdl-dev \
             libgl1-mesa-dev \
+            libx11-dev \
+            libx11-xcb-dev \
+            libxrender-dev \
+            libxext-dev \
+            libxi-dev \
+            libsm-dev \
+            libice-dev \
             libxkbcommon-dev \
+            libxkbcommon-x11-dev \
             libfontconfig1-dev \
             libxcb-*-dev
           # Ensure aclocal can find libtool's m4 macros on Ubuntu 24.04
@@ -135,7 +143,15 @@ jobs:
             libtool \
             libltdl-dev \
             libgl1-mesa-dev \
+            libx11-dev \
+            libx11-xcb-dev \
+            libxrender-dev \
+            libxext-dev \
+            libxi-dev \
+            libsm-dev \
+            libice-dev \
             libxkbcommon-dev \
+            libxkbcommon-x11-dev \
             libfontconfig1-dev \
             libxcb-*-dev
           # Ensure aclocal can find libtool's m4 macros on Ubuntu 24.04
