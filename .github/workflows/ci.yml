@@ -60,6 +60,10 @@ jobs:
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT }}
 
+      - name: Setup MSVC developer environment (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Configure
         run: >
           cmake -B build -G "${{ env.CMAKE_GENERATOR }}"
@@ -122,6 +126,10 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT }}
+
+      - name: Setup MSVC developer environment (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure (Release)
         run: >
