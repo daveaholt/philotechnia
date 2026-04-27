@@ -181,6 +181,10 @@ jobs:
       - name: Build (Release)
         run: cmake --build build --config Release
 
+      - name: Set library path for linuxdeploy (Linux)
+        if: runner.os == 'Linux'
+        run: echo "LD_LIBRARY_PATH=${{ github.workspace }}/build/vcpkg_installed/x64-linux/lib" >> $GITHUB_ENV
+
       - name: Package
         working-directory: build
         run: cpack
