@@ -1,77 +1,62 @@
-# Build directories
-build/
-build-*/
-out/
-cmake-build-*/
-
-# CMake
-CMakeCache.txt
-CMakeFiles/
-CMakeScripts/
-cmake_install.cmake
-CTestTestfile.cmake
-install_manifest.txt
-Testing/
-_deps/
-
-# Ninja
-.ninja_deps
-.ninja_log
-build.ninja
-rules.ninja
-
-# vcpkg (installed/cached dependencies — never commit)
-vcpkg_installed/
-vcpkg/
-.vcpkg-root
-
-# CPack
-_CPack_Packages/
-*.dmg
-*.msi
-*.deb
-*.AppImage
-*.tar.gz
-*.zip
-
-# Compiled objects, libs, executables
-*.o
-*.obj
-*.lo
-*.a
-*.lib
-*.so
-*.so.*
-*.dylib
-*.dll
-*.exe
-*.pdb
-*.ilk
-*.exp
-
-# Compilation databases
-compile_commands.json
-
-# IDEs and editors
-.vs/
-.vscode/
-.idea/
+# .NET
+bin/
+obj/
 *.user
 *.suo
-*.ncb
-*.opensdf
-*.sdf
-*.VC.db
-*.VC.opendb
+*.userosscache
+*.sln.docstates
+.vs/
+*.swp
+*.log
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+appsettings.Development.json
+appsettings.Local.json
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+!**/packages/build/
+
+# Angular
+node_modules/
+dist/
+.angular/
+.sass-cache/
+*.js.map
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Electron / desktop wrapper
+out/
+release-builds/
+electron-dist/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+secrets.json
+
+# OS
 .DS_Store
 Thumbs.db
+desktop.ini
 *~
-*.swp
 *.swo
 
-# Clangd / clang-tidy / include-what-you-use
-.cache/
-.clangd/
-
-# AI / local agent scratch
-.claude/
+# IDEs
+.idea/
+*.iml
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json

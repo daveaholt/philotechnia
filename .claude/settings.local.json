@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/**)",
+      "Read(//c/Program Files \\(x86\\)/Microsoft Visual Studio/Installer//**)",
+      "Bash(export PATH=\"/c/Program Files/CMake/bin:$PATH\")",
+      "Bash(export VCPKG_ROOT=\"C:/vcpkg\")",
+      "Bash(cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows)"
+    ]
+  }
+}
